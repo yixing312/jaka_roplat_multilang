@@ -6,12 +6,11 @@ build = "build.rs"
 publish = false
 
 [dependencies]
-anyhow = "1.0"
-libjaka = { path = "../../libjaka-rs" }
+libjaka = "0.1.16"
 robot_behavior = "0.5.4"
-roplat = { path = "../../../roplat/roplat" }
-rsbullet = { path = "../../rsbullet/rsbullet" }
+roplat = "0.2.0"
+rsbullet = "0.3.11"
 tokio = { version = "1.47", features = ["rt-multi-thread", "macros", "time"] }
 
 [build-dependencies]
-roplat_build = { path = "../../../roplat/roplat_build" }
+roplat_build = "0.2.1"

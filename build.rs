@@ -1,6 +1,8 @@
 use roplat_build::{BuildOrchestrator, NativeBackend, NativeBuildConfig};
 
 fn main() {
+    configure_windows_msvc_runtime();
+
     if std::env::var("ROPLAT_PHASE").as_deref() == Ok("EXTRACT") {
         return;
     }
@@ -22,4 +24,36 @@ fn main() {
     println!("cargo:rerun-if-changed=cpp/src/");
     println!("cargo:rerun-if-changed=py/");
     println!("cargo:rerun-if-changed=build.rs");
+}
+
+#[cfg(all(windows, target_env = "msvc"))]
+fn configure_windows_msvc_runtime() {
+    append_env_flag("CXXFLAGS", "/MT");
+    append_env_flag("CXXFLAGS_x86_64_pc_windows_msvc", "/MT");
+}
+
+#[cfg(not(all(windows, target_env = "msvc")))]
+fn configure_windows_msvc_runtime() {}
+
+#[cfg(all(windows, target_env = "msvc"))]
+fn append_env_flag(key: &str, flag: &str) {
+    println!("cargo:rerun-if-env-changed={key}");
+
+    let current = std::env::var(key).unwrap_or_default();
+    if current
+        .split_whitespace()
+        .any(|item| item.eq_ignore_ascii_case(flag))
+    {
+        return;
+    }
+
+    let next = if current.trim().is_empty() {
+        flag.to_string()
+    } else {
+        format!("{current} {flag}")
+    };
+
+    unsafe {
+        std::env::set_var(key, next);
+    }
 }

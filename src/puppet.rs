@@ -1,10 +1,6 @@
 use crate::msg::{CurveBatch, MotionTick, TrajectoryPlan};
 
-#[roplat::node(
-    lang = "py",
-    input(tick, MotionTick),
-    output(plan, TrajectoryPlan)
-)]
+#[roplat::node(lang = "py", input(tick, MotionTick), output(plan, TrajectoryPlan))]
 pub struct PyTrajectoryPlanner {
     pub duration_s: f64,
     pub amplitude_rad: f64,
@@ -16,11 +12,7 @@ impl PyTrajectoryPlanner {
     }
 }
 
-#[roplat::node(
-    lang = "cpp",
-    input(plan, TrajectoryPlan),
-    output(curve, CurveBatch)
-)]
+#[roplat::node(lang = "cpp", input(plan, TrajectoryPlan), output(curve, CurveBatch))]
 pub struct CppSpatialCurve {
     pub radius_m: f64,
     pub height_m: f64,
@@ -29,6 +21,11 @@ pub struct CppSpatialCurve {
 
 impl CppSpatialCurve {
     pub fn new() -> Self {
-        Self { radius_m: 0.06, height_m: 0.04, turns: 1.0, ..Self::default() }
+        Self {
+            radius_m: 0.06,
+            height_m: 0.04,
+            turns: 1.0,
+            ..Self::default()
+        }
     }
 }
