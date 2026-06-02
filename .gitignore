@@ -1,5 +1,4 @@
 target/
-**/roplat_gen/
 __pycache__/
 *.pyd
 *.dll

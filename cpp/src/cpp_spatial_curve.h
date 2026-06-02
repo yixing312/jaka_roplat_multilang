@@ -8,7 +8,8 @@
 #include "roplat/node.h"
 
 class CppSpatialCurve : public CppSpatialCurveBase,
-                        public roplat::Node<TrajectoryPlan, CurveBatch> {
+                        public roplat::Node<TrajectoryPlan, CurveBatch>
+{
 public:
     CppSpatialCurve() = default;
     ~CppSpatialCurve() override = default;
@@ -16,7 +17,8 @@ public:
     using Input = TrajectoryPlan;
     using Output = CurveBatch;
 
-    CurveBatch process(const TrajectoryPlan& input) override {
+    CurveBatch process(const TrajectoryPlan &input) override
+    {
         CurveBatch out{};
         out.seq = input.seq;
         out.done = input.done;
@@ -27,7 +29,8 @@ public:
         const double phase = input.phase;
         const double base_angle = 2.0 * kPi * turns * phase;
 
-        for (int i = 0; i < kSamples; ++i) {
+        for (int i = 0; i < kSamples; ++i)
+        {
             const double lookahead = static_cast<double>(i) / static_cast<double>(kSamples - 1);
             const double angle = base_angle + lookahead * 0.7;
             out.point_x[i] = getRadius_m() * std::cos(angle);
@@ -35,7 +38,8 @@ public:
             out.point_z[i] = getHeight_m() * std::sin(0.5 * angle);
         }
 
-        for (int i = 0; i < 6; ++i) {
+        for (int i = 0; i < 6; ++i)
+        {
             out.target_joint[i] = input.base_joint[i];
         }
         out.target_joint[0] += input.amplitude_rad * std::sin(base_angle);
