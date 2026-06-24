@@ -5,9 +5,8 @@ use jaka_roplat_multilang::{
     puppet::{CppSpatialCurve, PyTrajectoryPlanner},
 };
 use libjaka::JakaMini2;
-use robot_behavior::behavior::{
-    AddRobot, AddSearchPath, ArmMotionRhythm, EntityBuilder, PhysicsEngine,
-};
+use robot_behavior::behavior::*;
+use roplat::Node;
 use rsbullet::{Mode, RsBullet, RsBulletRobot};
 
 fn create_sim_robot() -> RsBulletRobot<JakaMini2> {
@@ -49,14 +48,29 @@ fn create_sim_robot() -> RsBulletRobot<JakaMini2> {
     robot
 }
 
-#[roplat::system]
+#[tokio::main]
 async fn main() {
-    let robot = create_sim_robot();
-    let mut motion = ArmMotionRhythm::new(robot).with_period(Duration::from_secs_f64(1.0 / 125.0));
+    let mut robot = create_sim_robot();
     let mut tick = MotionTickNode::new(750);
     let mut planner = PyTrajectoryPlanner::new();
     let mut curve = CppSpatialCurve::new();
     let mut command = JakaMotionCommand::new();
+    let period = Duration::from_secs_f64(1.0 / 125.0);
+    let mut trajectory = Vec::new();
 
-    motion >> |sample| sample >> tick >> planner >> curve >> command;
+    loop {
+        let state = robot.state().expect("failed to read simulated JAKA state");
+        let tick_msg = tick.process((state, period)).await;
+        let plan = planner.process(tick_msg).await;
+        let curve_batch = curve.process(plan).await;
+        let (joint, done) = command.process(curve_batch).await;
+        trajectory.push(joint);
+        if done {
+            break;
+        }
+    }
+
+    robot
+        .move_traj::<JointSpace<6>>(trajectory)
+        .expect("failed to execute simulated JAKA trajectory");
 }

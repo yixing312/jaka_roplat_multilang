@@ -6,10 +6,11 @@ build = "build.rs"
 publish = false
 
 [dependencies]
-libjaka = "0.1.16"
-robot_behavior = "0.5.4"
-roplat = "0.2.0"
-rsbullet = "0.3.11"
+libjaka = { path = "../../libjaka-rs" }
+robot_behavior = { path = "../../robot_behavior" }
+roplat = { path = "../../../roplat/roplat" }
+roplat_py = { path = "../../../roplat/roplat_py" }
+rsbullet = { path = "../../rsbullet/rsbullet" }
 tokio = { version = "1.47", features = ["rt-multi-thread", "macros", "time"] }
 
 [build-dependencies]
