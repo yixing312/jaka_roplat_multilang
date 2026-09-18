@@ -5,3 +5,4 @@ __pycache__/
 *.lib
 *.exp
 *.obj
+.DS_Store
