@@ -1,8 +1,8 @@
-﻿use std::time::Duration;
+use std::time::Duration;
 
 use libjaka::JakaMini2;
 use robot_behavior::{ArmState, Joints};
-use roplat::Node;
+use roplat::{Lifecycle, Node};
 
 use crate::msg::{CurveBatch, MotionTick};
 
@@ -18,10 +18,13 @@ impl MotionTickNode {
     }
 }
 
+impl Lifecycle for MotionTickNode {
+    type Error = roplat::RoplatError;
+}
+
 impl Node for MotionTickNode {
     type Input = (ArmState<6>, Duration);
     type Output = MotionTick;
-    type Error = roplat::RoplatError;
 
     async fn process(&mut self, (state, dt): Self::Input) -> Self::Output {
         self.seq += 1;
@@ -41,16 +44,25 @@ pub struct JakaMotionCommand {
     log_every: u64,
 }
 
+impl Default for JakaMotionCommand {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl JakaMotionCommand {
     pub fn new() -> Self {
         Self { log_every: 40 }
     }
 }
 
+impl Lifecycle for JakaMotionCommand {
+    type Error = roplat::RoplatError;
+}
+
 impl Node for JakaMotionCommand {
     type Input = CurveBatch;
     type Output = ([f64; 6], bool);
-    type Error = roplat::RoplatError;
 
     async fn process(&mut self, input: Self::Input) -> Self::Output {
         let mut target = input.target_joint;
