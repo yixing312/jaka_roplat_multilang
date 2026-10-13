@@ -30,12 +30,14 @@ where
     type Yield = (ArmState<6>, Duration);
     type Feed = ([f64; 6], bool);
     type Output = Vec<[f64; 6]>;
+    type Resources = ();
 
     async fn drive<N, F, Fut>(
         &mut self,
         mut nodes: N,
         mut domain: F,
         (): (),
+        _resources: (),
         context: ExecutionContext,
     ) -> (Execution<Self::Output>, N)
     where
@@ -154,6 +156,7 @@ mod tests {
                     )
                 },
                 (),
+                (),
                 ExecutionContext::new(),
             )
             .await;
@@ -179,6 +182,7 @@ mod tests {
                     )
                 },
                 (),
+                (),
                 context.clone(),
             )
             .await;
@@ -197,6 +201,7 @@ mod tests {
             .drive(
                 7,
                 |_, _, _| async { panic!("domain must not run") },
+                (),
                 (),
                 ExecutionContext::new(),
             )
@@ -222,6 +227,7 @@ mod stop_test {
             .drive(
                 7,
                 |nodes, _, _| async move { (Ok(Completion::Stopped), nodes + 1) },
+                (),
                 (),
                 context.clone(),
             )

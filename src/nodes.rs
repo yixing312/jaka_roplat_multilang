@@ -25,8 +25,9 @@ impl Lifecycle for MotionTickNode {
 impl Node for MotionTickNode {
     type Input = (ArmState<6>, Duration);
     type Output = MotionTick;
+    type Resources = ();
 
-    async fn process(&mut self, (state, dt): Self::Input) -> Self::Output {
+    async fn process(&mut self, (state, dt): Self::Input, _resources: ()) -> Self::Output {
         self.seq += 1;
         self.elapsed_s += dt.as_secs_f64();
         let current_joint = state.joint.meas.q.unwrap_or(JakaMini2::JOINT_DEFAULT);
@@ -63,8 +64,9 @@ impl Lifecycle for JakaMotionCommand {
 impl Node for JakaMotionCommand {
     type Input = CurveBatch;
     type Output = ([f64; 6], bool);
+    type Resources = ();
 
-    async fn process(&mut self, input: Self::Input) -> Self::Output {
+    async fn process(&mut self, input: Self::Input, _resources: ()) -> Self::Output {
         let mut target = input.target_joint;
         for (index, joint) in target.iter_mut().enumerate() {
             *joint = joint.clamp(JakaMini2::JOINT_MIN[index], JakaMini2::JOINT_MAX[index]);
