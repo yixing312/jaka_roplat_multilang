@@ -10,8 +10,10 @@ libjaka = { path = "../../libjaka-rs" }
 robot_behavior = { path = "../../robot_behavior" }
 roplat = { path = "../../../roplat/roplat" }
 roplat_py = { path = "../../../roplat/roplat_py" }
-rsbullet = { path = "../../rsbullet/rsbullet" }
 tokio = { version = "1.47", features = ["rt-multi-thread", "macros", "time"] }
 
+[dev-dependencies]
+rsbullet = { path = "../../rsbullet/rsbullet" }
+
 [build-dependencies]
-roplat_build = "0.2.1"
+roplat_build = { path = "../../../roplat/roplat_build" }

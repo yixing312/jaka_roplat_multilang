@@ -1,7 +1,7 @@
-from roplat_gen.node import Node
-from roplat_gen.motion_tick import MotionTick
-from roplat_gen.py_trajectory_planner_base import PyTrajectoryPlannerBase
-from roplat_gen.trajectory_plan import TrajectoryPlan
+from node import Node
+from motion_tick import MotionTick
+from py_trajectory_planner_base import PyTrajectoryPlannerBase
+from trajectory_plan import TrajectoryPlan
 
 
 class PyTrajectoryPlanner(PyTrajectoryPlannerBase, Node):
