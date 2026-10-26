@@ -1,8 +1,8 @@
 use std::time::Duration;
 
 use libjaka::JakaMini2;
-use robot_behavior::{ArmState, Joints};
 use roplat::{Lifecycle, Node};
+use roplat_behavior::{ArmState, Joints};
 
 use crate::msg::{CurveBatch, MotionTick};
 
@@ -30,7 +30,7 @@ impl Node for MotionTickNode {
     async fn process(&mut self, (state, dt): Self::Input, _resources: ()) -> Self::Output {
         self.seq += 1;
         self.elapsed_s += dt.as_secs_f64();
-        let current_joint = state.joint.meas.q.unwrap_or(JakaMini2::JOINT_DEFAULT);
+        let current_joint = state.joint.meas.q().unwrap_or(JakaMini2::JOINT_DEFAULT);
         MotionTick {
             seq: self.seq,
             time_s: self.elapsed_s,

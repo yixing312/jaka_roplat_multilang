@@ -1,6 +1,6 @@
 use jaka_roplat_multilang::planning::plan_trajectory;
 use libjaka::JakaMini2;
-use robot_behavior::behavior::*;
+use roplat_behavior::behavior::*;
 
 fn connect_real_robot() -> JakaMini2 {
     if std::env::var("JAKA_REAL_ENABLE").as_deref() != Ok("1") {

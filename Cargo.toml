@@ -7,7 +7,7 @@ publish = false
 
 [dependencies]
 libjaka = { path = "../../libjaka-rs" }
-robot_behavior = { path = "../../robot_behavior" }
+roplat_behavior = "0.9.0"
 roplat = { path = "../../../roplat/roplat" }
 roplat_py = { path = "../../../roplat/roplat_py" }
 tokio = { version = "1.47", features = ["rt-multi-thread", "macros", "time"] }

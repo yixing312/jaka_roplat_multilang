@@ -2,7 +2,7 @@ use std::{path::PathBuf, thread, time::Duration};
 
 use jaka_roplat_multilang::planning::plan_trajectory;
 use libjaka::JakaMini2;
-use robot_behavior::behavior::*;
+use roplat_behavior::behavior::*;
 use rsbullet::{Mode, RsBullet, RsBulletRobot};
 
 fn create_sim_robot() -> RsBulletRobot<JakaMini2> {
