@@ -2,9 +2,9 @@
 
 use std::{future::Future, time::Duration};
 
-use robot_behavior::{ArmState, RobotResult};
 use roplat::rhythm::Rhythm;
 use roplat::{Completion, Execution, ExecutionContext, Lifecycle, RoplatError};
+use roplat_behavior::{ArmState, RobotResult};
 
 use crate::{
     nodes::{JakaMotionCommand, MotionTickNode},
@@ -112,7 +112,7 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
-    use robot_behavior::RobotException;
+    use roplat_behavior::RobotException;
 
     #[derive(Default)]
     struct MockRobot {
