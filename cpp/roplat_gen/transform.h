@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include "frame_id.h"
+#include "pose.h"
 
 #ifdef __cplusplus
 extern "C" {
