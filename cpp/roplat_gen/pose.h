@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include "vector3.h"
+#include "quaternion.h"
 
 #ifdef __cplusplus
 extern "C" {

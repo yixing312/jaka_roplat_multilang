@@ -4,6 +4,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include "pose.h"
+#include "twist.h"
+#include "accel.h"
+#include "wrench.h"
 
 #ifdef __cplusplus
 extern "C" {

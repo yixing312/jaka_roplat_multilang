@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include "stamp.h"
+#include "frame_id.h"
 
 #ifdef __cplusplus
 extern "C" {
