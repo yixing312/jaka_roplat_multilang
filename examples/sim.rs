@@ -3,6 +3,7 @@ use std::{path::PathBuf, thread, time::Duration};
 use jaka_roplat_multilang::planning::plan_trajectory;
 use libjaka::JakaMini2;
 use roplat_behavior::behavior::*;
+use roplat_world::{AddRobot, AddSearchPath, EntityBuilder, PhysicsEngine};
 use rsbullet::{Mode, RsBullet, RsBulletRobot};
 
 fn create_sim_robot() -> RsBulletRobot<JakaMini2> {

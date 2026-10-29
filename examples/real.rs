@@ -12,7 +12,9 @@ fn connect_real_robot() -> JakaMini2 {
     let ip = std::env::var("JAKA_IP").expect("missing JAKA_IP");
     let mut robot = JakaMini2::new(&ip);
     robot.enable().expect("failed to enable JAKA robot");
-    robot.set_scale(0.05);
+    robot
+        .set_motion_limits(MotionLimits::envelope::<JakaMini2>().scaled(0.05))
+        .expect("failed to limit JAKA motion");
     robot
 }
 
