@@ -68,8 +68,9 @@ impl Node for JakaMotionCommand {
 
     async fn process(&mut self, input: Self::Input, _resources: ()) -> Self::Output {
         let mut target = input.target_joint;
+        let limits = JakaMini2::JOINT_LIMITS;
         for (index, joint) in target.iter_mut().enumerate() {
-            *joint = joint.clamp(JakaMini2::JOINT_MIN[index], JakaMini2::JOINT_MAX[index]);
+            *joint = joint.clamp(limits.q_min[index], limits.q_max[index]);
         }
 
         if input.seq == 1 || input.seq % self.log_every == 0 || input.done != 0 {

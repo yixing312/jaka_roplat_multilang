@@ -10,12 +10,12 @@ extern "C" {
 #endif
 
 typedef struct CartesianLimits {
-    double linear_velocity;
-    double linear_acceleration;
-    double linear_jerk;
-    double angular_velocity;
-    double angular_acceleration;
-    double angular_jerk;
+    double linear_velocity_max;
+    double linear_acceleration_max;
+    double linear_jerk_max;
+    double angular_velocity_max;
+    double angular_acceleration_max;
+    double angular_jerk_max;
 } CartesianLimits;
 
 #ifdef __cplusplus

@@ -5,12 +5,12 @@ from typing import Optional
 
 class CartesianLimits(ctypes.Structure):
     _fields_ = [
-        ("linear_velocity", ctypes.c_double),
-        ("linear_acceleration", ctypes.c_double),
-        ("linear_jerk", ctypes.c_double),
-        ("angular_velocity", ctypes.c_double),
-        ("angular_acceleration", ctypes.c_double),
-        ("angular_jerk", ctypes.c_double),
+        ("linear_velocity_max", ctypes.c_double),
+        ("linear_acceleration_max", ctypes.c_double),
+        ("linear_jerk_max", ctypes.c_double),
+        ("angular_velocity_max", ctypes.c_double),
+        ("angular_acceleration_max", ctypes.c_double),
+        ("angular_jerk_max", ctypes.c_double),
     ]
 
     def __repr__(self) -> str:

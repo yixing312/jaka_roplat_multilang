@@ -55,7 +55,7 @@ where
                 Ok(state) => state,
                 Err(error) => {
                     context.request_stop();
-                    return (Err(RoplatError::Io(std::io::Error::other(error))), nodes);
+                    return (Err(RoplatError::Node(Box::new(error))), nodes);
                 }
             };
             let (outcome, returned) = domain(nodes, (state, period), context.clone()).await;
@@ -176,10 +176,7 @@ mod tests {
             .drive(
                 0,
                 |nodes, _, _| async move {
-                    (
-                        Err(RoplatError::Arithmetic("planning failed".into())),
-                        nodes + 1,
-                    )
+                    (Err(RoplatError::Node("planning failed".into())), nodes + 1)
                 },
                 (),
                 (),
@@ -187,7 +184,7 @@ mod tests {
             )
             .await;
         assert!(
-            matches!(outcome, Err(RoplatError::Arithmetic(message)) if message == "planning failed")
+            matches!(outcome, Err(RoplatError::Node(message)) if message.to_string() == "planning failed")
         );
         assert_eq!(nodes, 1);
         assert!(context.is_stopping());
@@ -206,11 +203,11 @@ mod tests {
                 ExecutionContext::new(),
             )
             .await;
-        let Err(RoplatError::Io(error)) = outcome else {
+        let Err(RoplatError::Node(error)) = outcome else {
             panic!("device error required")
         };
         assert!(
-            matches!(error.get_ref().and_then(|source| source.downcast_ref::<RobotException>()), Some(RobotException::NetworkError(message)) if message == "read failed")
+            matches!(error.downcast_ref::<RobotException>(), Some(RobotException::NetworkError(message)) if message == "read failed")
         );
         assert_eq!(nodes, 7);
     }
